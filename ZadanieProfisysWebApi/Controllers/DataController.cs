@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
 using ZadanieProfisysWebApi.Models;
-using ZadanieProfisysWebApi.Repositories.Implementations;
 using ZadanieProfisysWebApi.Repositories.Interfaces;
 
 namespace ZadanieProfisysWebApi.Controllers
@@ -43,8 +40,8 @@ namespace ZadanieProfisysWebApi.Controllers
         [HttpPost("ProcessCsvFilesFromDirectory")]
         public async Task<IActionResult> LoadDocumentToDatabase()
         {
-            var documents = _csvService.ReadCSV<Document>(@"DataFiles\Documents.csv");
-            var documentItems = _csvService.ReadCSV<DocumentItem>(@"DataFiles\DocumentItems.csv");
+            var documents = _csvService.ReadCSV<Document>(@"CsvFiles\Documents.csv");
+            var documentItems = _csvService.ReadCSV<DocumentItem>(@"CsvFiles\DocumentItems.csv");
 
             await _documentRepository.ImportToDB(documents);
             await _documentRepository.ImportToDB(documentItems);
@@ -63,6 +60,13 @@ namespace ZadanieProfisysWebApi.Controllers
         public async Task<IActionResult> GetAllDocuments()
         {
             var result = await _documentRepository.GetAllDocuments();
+            return Ok(result);
+        }
+
+        [HttpGet("GetAllDocumentItems")]
+        public async Task<IActionResult> GetAllDocumentItems()
+        {
+            var result = await _documentRepository.GetAllDocumentItems();
             return Ok(result);
         }
 

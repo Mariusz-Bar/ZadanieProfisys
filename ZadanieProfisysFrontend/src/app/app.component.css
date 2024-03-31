@@ -1,0 +1,9 @@
+.table {
+  width: 50%;
+  padding: auto;
+  margin: auto;
+}
+
+.selected {
+  background-color: #434467; /* Change this to your desired background color */
+}
