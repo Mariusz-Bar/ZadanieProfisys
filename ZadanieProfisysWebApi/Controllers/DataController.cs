@@ -24,7 +24,7 @@ namespace ZadanieProfisysWebApi.Controllers
 
             //add data controll
             await _documentRepository.ImportToDB(documents);
-            return Ok();  
+            return Ok(documents);  
         }
 
         [HttpPost("UploadDocumentItemsCsv")]
@@ -34,7 +34,7 @@ namespace ZadanieProfisysWebApi.Controllers
 
             //add data controll
             await _documentRepository.ImportToDB(documentItems);
-            return Ok();
+            return Ok(documentItems);
         }
 
         [HttpPost("ProcessCsvFilesFromDirectory")]

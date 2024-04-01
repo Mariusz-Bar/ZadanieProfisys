@@ -1,9 +1,68 @@
-.table {
-  width: 50%;
-  padding: auto;
-  margin: auto;
-}
-
 .selected {
   background-color: #434467; /* Change this to your desired background color */
+  color: white;
+}
+
+body {
+  background-color: #ffffff;
+  height: 100%;
+}
+
+.containerMain {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 1400px) {
+  .containerMain {
+    grid-template-columns: 1fr;
+  }
+}
+
+.description {
+  height: 60px;
+  background-color: #434467;
+  margin-bottom: 20px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.left {
+  margin: 5px 20px 20px 20px;
+  padding: 5px 5px 5px 5px;
+  background-color: #434467;
+  border-radius: 10px;
+  height: fit-content;
+}
+.right {
+  margin: 5px 20px 20px 20px;
+  padding: 5px 5px 5px 5px;
+  background-color: #434467;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.settings {
+  padding: 0px;
+  margin: 0px;
+}
+.filter {
+  margin-left: 20px;
+  width: 300px;
+}
+
+.title {
+  justify-content: center;
+  align-items: center;
+  background-color: #434467;
+  color: white;
+  margin: 0px;
+  padding-bottom: 10px;
+}
+
+h1 {
+  margin: auto;
+  padding-top: 10px;
+  width: fit-content;
 }

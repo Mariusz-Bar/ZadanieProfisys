@@ -1,106 +1,268 @@
-<h1>Test</h1>
+<body>
+  <div class="description">
+    <h1>Zadanie dla Profisys</h1>
+  </div>
+  <div class="row settings"></div>
 
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-</mat-form-field>
+  <div class="containerMain">
+    <div class="left">
+      <div class="title">
+        <div class="row">
+          <h1>Tabela Documents.csv</h1>
+        </div>
+        <div class="row" style="padding-top: 10px">
+          <div class="col">
+            <input
+              class="form-control filter shadow-none"
+              style="width: 100%; margin-left: 0px"
+              matInput
+              (keyup)="applyFilter($event)"
+              placeholder="Szukaj"
+              #input
+            />
+          </div>
+          <div class="col">
+            <input
+              class="form-control col shadow-none"
+              type="file"
+              (change)="onFileChange($event)"
+              [multiple]="false"
+              accept=".csv"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="table">
+        <table #table1 mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="id">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Id
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+          </ng-container>
 
-<div class="table">
-  <table mat-table [dataSource]="dataSource" matSort>
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
-      <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-    </ng-container>
+          <ng-container matColumnDef="type">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Type
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>type</th>
-      <td mat-cell *matCellDef="let row">{{ row.type }}</td>
-    </ng-container>
+          <ng-container matColumnDef="date">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Date
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.date | date : "yyyy-MM-dd" }}
+            </td>
+          </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>date</th>
-      <td mat-cell *matCellDef="let row">
-        {{ row.date | date : "yyyy-MM-dd" }}
-      </td>
-    </ng-container>
+          <ng-container matColumnDef="firstName">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              First Name
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>firsName</th>
-      <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
-    </ng-container>
+          <ng-container matColumnDef="lastName">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Last Name
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>lastName</th>
-      <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
-    </ng-container>
+          <ng-container matColumnDef="city">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              City
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.city }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="city">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>city</th>
-      <td mat-cell *matCellDef="let row">{{ row.city }}</td>
-    </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="onRowClicked(row)"
+            [ngClass]="{ selected: selectedRow === row }"
+          ></tr>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      (click)="onRowClicked(row)"
-      [ngClass]="{ selected: selectedRow === row }"
-    ></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">
+              <h2
+                style="
+                  color: rgb(48, 47, 47);
+                  width: fit-content;
+                  margin-left: auto;
+                  margin-right: auto;
+                  padding-top: 10px;
+                "
+              >
+                Brak danych do wyświetlenia.
+              </h2>
+            </td>
+          </tr>
+        </table>
 
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">
-        No data matching the filter "{{ input.value }}"
-      </td>
-    </tr>
-  </table>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="10"
+          showFirstLastButtons
+          aria-label="Select page"
+        >
+        </mat-paginator>
+      </div>
+    </div>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons
-    aria-label="Select page of periodic elements"
-  >
-  </mat-paginator>
-</div>
+    <div class="right">
+      <div class="title">
+        <div class="row">
+          <h1>Tabela DocumentItems.csv</h1>
+        </div>
+        <div class="row" style="padding-top: 10px">
+          <div class="col">
+            <input
+              class="form-control filter shadow-none"
+              style="width: 100%; margin-left: 0px"
+              matInput
+              (keyup)="applyFilter2($event)"
+              placeholder="Szukaj"
+              #input
+            />
+          </div>
+          <div class="col">
+            <input
+              class="form-control col shadow-none"
+              type="file"
+              (change)="onFileChange2($event)"
+              [multiple]="false"
+              accept=".csv"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="table">
+        <table #table2 mat-table [dataSource]="dataSource2" matSort>
+          <ng-container matColumnDef="ordinal">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Ordinal
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.ordinal }}</td>
+          </ng-container>
 
-<div class="table" style="padding: 10px">
-  <table mat-table [dataSource]="dataSource2" matSort>
-    <ng-container matColumnDef="documentId">
-      <th mat-header-cell *matHeaderCellDef>documentId</th>
-      <td mat-cell *matCellDef="let row">{{ row.documentId }}</td>
-    </ng-container>
+          <ng-container matColumnDef="product">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Product
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.product }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="ordinal">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ordinal</th>
-      <td mat-cell *matCellDef="let row">{{ row.ordinal }}</td>
-    </ng-container>
+          <ng-container matColumnDef="quantity">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Quantity
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="product">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>product</th>
-      <td mat-cell *matCellDef="let row">{{ row.product }}</td>
-    </ng-container>
+          <ng-container matColumnDef="price">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Price
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>quantity</th>
-      <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
-    </ng-container>
+          <ng-container matColumnDef="taxRate">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              [style.background-color]="'#434467'"
+              [style.color]="'white'"
+            >
+              Tax Rate
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.taxRate }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>price</th>
-      <td mat-cell *matCellDef="let row">{{ row.price }}</td>
-    </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
 
-    <ng-container matColumnDef="taxRate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>taxRate</th>
-      <td mat-cell *matCellDef="let row">{{ row.taxRate }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
-
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter</td>
-    </tr>
-  </table>
-
-  <router-outlet></router-outlet>
-</div>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">
+              <h2
+                style="
+                  color: rgb(48, 47, 47);
+                  width: fit-content;
+                  margin-left: auto;
+                  margin-right: auto;
+                  padding-top: 10px;
+                "
+              >
+                Brak danych do wyświetlenia. Wybierz dokument z tabeli.
+              </h2>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>

@@ -23,4 +23,18 @@ export class DocumentsService {
       `${this.baseUrl}GetDocumentItems/${documentId}`
     );
   }
+
+  sendDocumentItemsCsv(formData: FormData) {
+    return this.http.post<DocumentItem[]>(
+      `${this.baseUrl}UploadDocumentItemsCsv`,
+      formData
+    );
+  }
+
+  sendDocumentsCsv(formData: FormData) {
+    return this.http.post<Document[]>(
+      `${this.baseUrl}UploadDocumentsCsv`,
+      formData
+    );
+  }
 }

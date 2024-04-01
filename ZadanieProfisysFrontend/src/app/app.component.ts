@@ -5,6 +5,7 @@ import { DocumentItem } from './Interfaces/document-item';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,8 @@ import { MatSort } from '@angular/material/sort';
 })
 export class AppComponent implements AfterViewInit {
   title = 'ZadanieProfisysFrontend';
-  //documents: Document[] = [];
   documentItems: DocumentItem[] = [];
 
-  //dataSource = new MatTableDataSource<Document>();
   dataSource: MatTableDataSource<Document>;
   dataSource2: MatTableDataSource<DocumentItem>;
   displayedColumns: string[] = [
@@ -28,7 +27,6 @@ export class AppComponent implements AfterViewInit {
     'city',
   ];
   displayedColumns2: string[] = [
-    'documentId',
     'ordinal',
     'product',
     'quantity',
@@ -37,9 +35,13 @@ export class AppComponent implements AfterViewInit {
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('table1', { read: MatSort, static: true }) sort1!: MatSort;
+  @ViewChild('table2', { read: MatSort, static: true }) sort2!: MatSort;
 
-  constructor(private documentsService: DocumentsService) {
+  constructor(
+    private documentsService: DocumentsService,
+    private http: HttpClient
+  ) {
     this.dataSource = new MatTableDataSource<Document>();
     this.dataSource2 = new MatTableDataSource<DocumentItem>();
   }
@@ -57,6 +59,7 @@ export class AppComponent implements AfterViewInit {
     this.dataSource2.data = this.documentItems.filter(
       (record) => record.documentId === element.id
     );
+    this.dataSource2.sort = this.sort2;
   }
 
   loadAllDocuments() {
@@ -64,7 +67,7 @@ export class AppComponent implements AfterViewInit {
       next: (res) => {
         this.dataSource.data = res;
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort1;
       },
       error: (err: any) => {
         console.log(err);
@@ -79,6 +82,11 @@ export class AppComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  applyFilter2(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
   }
 
   loadAllDocumentItems() {
@@ -101,5 +109,38 @@ export class AppComponent implements AfterViewInit {
         console.log(err);
       },
     });
+  }
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.documentsService.sendDocumentsCsv(formData).subscribe(
+      (res) => {
+        console.log('File upploaded');
+        this.dataSource.data = res;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort1;
+      },
+      (error) => {
+        console.log('Error:', error);
+      }
+    );
+  }
+
+  onFileChange2(event: any) {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.documentsService.sendDocumentItemsCsv(formData).subscribe(
+      () => {
+        console.log('File upploaded');
+      },
+      (error) => {
+        console.log('Error:', error);
+      }
+    );
   }
 }
