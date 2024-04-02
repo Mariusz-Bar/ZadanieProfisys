@@ -27,7 +27,7 @@ wiadomości e-mail na adres, który przesłał zadanie do wykonania.<br><br>
 Po uruchomieniu projektu (ZadanieProfisysWebApi) w Visual Studio należy w Package Manager Console wpisać komendę: <b>dotnet ef database update</b>, aby baza została stworzona. W razie potrzeby można zmienić ConnectionString w pliku appsettings.json <br>
 <h4>Instalowanie zależności w Angular:</h4>
 Po uruchomieniu projektu (ZadanieProfisysFrontend) w Visual Studio Code należy otworzyć terminal projektu i wpisać komendę: <b>npm install</b>. Gdy zależności zostaną zainstalowane można uruchomić projekt przez komendę: <b>ng serve</b><br>
-<h4>Urochomienie aplikacji:</h4>
+<h4>Uruchomienie aplikacji:</h4>
 Gdy backend oraz frontend zostanie uruchomiony, należy w przeglądarce wejść na adres: <b>http://localhost:4200/</b>
 
 <h3>Funkcje aplikacji:</h3>
