@@ -123,6 +123,7 @@ export class AppComponent implements AfterViewInit {
           summary: 'Udało się zaimportować dane',
           duration: 5000,
         });
+        event.target.value = '';
       },
       (error) => {
         this.toast.error({
@@ -154,6 +155,7 @@ export class AppComponent implements AfterViewInit {
           summary: 'Udało się zaimportować dane',
           duration: 5000,
         });
+        event.target.value = '';
       },
       (error) => {
         this.toast.error({
