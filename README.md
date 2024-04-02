@@ -21,7 +21,7 @@ wyświetlanych danych (na pewno zadziała to na plus przy ocenianiu).<br>
 • Gotowy projekt należy udostępnić w serwisie GitHub, a link do repozytorium przesłać w
 wiadomości e-mail na adres, który przesłał zadanie do wykonania.<br><br>
 
-<h2>Aplikacja została napisana w ASP.NET Web API + Angular</h2>
+<h2>Aplikacja została napisana w ASP.NET Web API (.NET 6) + Angular (v16) </h2>
 <h3>Instrukcja uruchomienia projektu</h3>
 <h4>Konfiguracja bazy danych:</h4>
 Po uruchomieniu projektu (ZadanieProfisysWebApi) w Visual Studio należy w Package Manager Console wpisać komendę: <b>dotnet ef database update</b>, aby baza została stworzona. W razie potrzeby można zmienić ConnectionString w pliku appsettings.json <br>
