@@ -37,4 +37,12 @@ export class DocumentsService {
       formData
     );
   }
+
+  processCsvFilesFromDirectory() {
+    return this.http.get<any>(`${this.baseUrl}ProcessCsvFilesFromDirectory`);
+  }
+
+  truncateData() {
+    return this.http.delete<any>(`${this.baseUrl}TruncateData`);
+  }
 }

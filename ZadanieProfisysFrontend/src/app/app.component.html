@@ -1,7 +1,24 @@
 <body>
   <div class="description">
-    <h1>Zadanie dla Profisys</h1>
+    <h1>Mariusz Bar - Zadanie dla Profisys</h1>
+    <div class="row buttons">
+      <button
+        type="button"
+        class="btn btn-light col-4 button-style"
+        (click)="loadFromDirectory()"
+      >
+        Zaimportuj dane zapisane w katalogu
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger col-4 button-style"
+        (click)="clearDatabase()"
+      >
+        Usuń dane
+      </button>
+    </div>
   </div>
+
   <div class="row settings"></div>
 
   <div class="containerMain">
@@ -266,3 +283,5 @@
     </div>
   </div>
 </body>
+
+<ng-toast></ng-toast>

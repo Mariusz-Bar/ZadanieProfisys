@@ -5,7 +5,7 @@ import { DocumentItem } from './Interfaces/document-item';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { HttpClient } from '@angular/common/http';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +40,7 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     private documentsService: DocumentsService,
-    private http: HttpClient
+    private toast: NgToastService
   ) {
     this.dataSource = new MatTableDataSource<Document>();
     this.dataSource2 = new MatTableDataSource<DocumentItem>();
@@ -53,7 +53,6 @@ export class AppComponent implements AfterViewInit {
 
   selectedRow: any;
   onRowClicked(element: Document) {
-    console.log(element);
     this.selectedRow = element;
 
     this.dataSource2.data = this.documentItems.filter(
@@ -102,9 +101,7 @@ export class AppComponent implements AfterViewInit {
 
   loadDocumentItems(documentId: number) {
     this.documentsService.getItemsOfDocument(documentId).subscribe({
-      next: (res) => {
-        console.log(res);
-      },
+      next: (res) => {},
       error: (err: any) => {
         console.log(err);
       },
@@ -118,13 +115,22 @@ export class AppComponent implements AfterViewInit {
 
     this.documentsService.sendDocumentsCsv(formData).subscribe(
       (res) => {
-        console.log('File upploaded');
         this.dataSource.data = res;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort1;
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się zaimportować dane',
+          duration: 5000,
+        });
       },
       (error) => {
-        console.log('Error:', error);
+        this.toast.error({
+          detail: 'ERROR',
+          summary:
+            'Wystąpił problem przy importowaniu danych. Sprawdź poprawność pliku.',
+          duration: 5000,
+        });
       }
     );
   }
@@ -135,11 +141,74 @@ export class AppComponent implements AfterViewInit {
     formData.append('file', file);
 
     this.documentsService.sendDocumentItemsCsv(formData).subscribe(
-      () => {
-        console.log('File upploaded');
+      (res) => {
+        this.documentItems = res;
+
+        this.dataSource2.data = this.documentItems.filter(
+          (record) => record.documentId === this.selectedRow.id
+        );
+        this.dataSource2.sort = this.sort2;
+
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się zaimportować dane',
+          duration: 5000,
+        });
       },
       (error) => {
-        console.log('Error:', error);
+        this.toast.error({
+          detail: 'ERROR',
+          summary:
+            'Wystąpił problem przy importowaniu danych. Sprawdź poprawność pliku.',
+          duration: 5000,
+        });
+      }
+    );
+  }
+
+  loadFromDirectory() {
+    this.documentsService.processCsvFilesFromDirectory().subscribe(
+      (res) => {
+        this.loadAllDocuments();
+        this.dataSource2.data = [];
+        this.loadAllDocumentItems();
+
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się zaimportować dane.',
+          duration: 5000,
+        });
+      },
+      (error) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Wystąpił problem przy importowaniu danych',
+          duration: 5000,
+        });
+      }
+    );
+  }
+
+  clearDatabase() {
+    this.documentsService.truncateData().subscribe(
+      (res) => {
+        this.dataSource = new MatTableDataSource<Document>();
+        this.dataSource2 = new MatTableDataSource<DocumentItem>();
+        this.dataSource.paginator = this.paginator;
+        this.documentItems = [];
+
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się usunąć dane z bazy.',
+          duration: 5000,
+        });
+      },
+      (error) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Wystąpił problem przy usuwaniu danych',
+          duration: 5000,
+        });
       }
     );
   }

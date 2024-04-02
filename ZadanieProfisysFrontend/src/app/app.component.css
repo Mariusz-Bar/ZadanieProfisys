@@ -19,10 +19,24 @@ body {
   }
 }
 
+.buttons {
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.button-style {
+  min-width: 320px;
+  max-width: 500px;
+  margin: 10px;
+}
+
 .description {
-  height: 60px;
   background-color: #434467;
   margin-bottom: 20px;
+  padding-bottom: 20px;
   color: white;
   justify-content: center;
   align-items: center;

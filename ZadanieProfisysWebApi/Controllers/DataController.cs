@@ -22,9 +22,8 @@ namespace ZadanieProfisysWebApi.Controllers
         {
             var documents = _csvService.ReadCSV<Document>(file[0].OpenReadStream());
 
-            //add data controll
             await _documentRepository.ImportToDB(documents);
-            return Ok(documents);  
+            return Ok(documents);
         }
 
         [HttpPost("UploadDocumentItemsCsv")]
@@ -32,12 +31,11 @@ namespace ZadanieProfisysWebApi.Controllers
         {
             var documentItems = _csvService.ReadCSV<DocumentItem>(file[0].OpenReadStream());
 
-            //add data controll
             await _documentRepository.ImportToDB(documentItems);
             return Ok(documentItems);
         }
 
-        [HttpPost("ProcessCsvFilesFromDirectory")]
+        [HttpGet("ProcessCsvFilesFromDirectory")]
         public async Task<IActionResult> LoadDocumentToDatabase()
         {
             var documents = _csvService.ReadCSV<Document>(@"CsvFiles\Documents.csv");

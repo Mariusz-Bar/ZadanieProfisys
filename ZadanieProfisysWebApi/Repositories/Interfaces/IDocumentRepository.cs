@@ -9,6 +9,6 @@ namespace ZadanieProfisysWebApi.Repositories.Interfaces
         Task<IEnumerable<DocumentItem>> GetDocumentItems(int documentId);
         Task<IEnumerable<Document>> ImportToDB(IEnumerable<Document> documents);
         Task<IEnumerable<DocumentItem>> ImportToDB(IEnumerable<DocumentItem> documentItems);
-        Task<int> TruncateData();
+        Task<bool> TruncateData();
     }
 }

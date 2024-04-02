@@ -10,43 +10,57 @@ namespace ZadanieProfisysWebApi.Repositories.Implementations
     {
         public IEnumerable<T> ReadCSV<T>(Stream file)
         {
-            using (var reader = new StreamReader(file))
+            try
             {
-                CultureInfo cultureInfo = new CultureInfo("pl-PL");
-                cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
-
-                var csvConfig = new CsvConfiguration(cultureInfo)
+                using (var reader = new StreamReader(file))
                 {
-                    Delimiter = ";",
-                };
+                    CultureInfo cultureInfo = new CultureInfo("pl-PL");
+                    cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
 
-                var csv = new CsvReader(reader, csvConfig);
-                csv.Context.RegisterClassMap<DocumentMap>();
-                csv.Context.RegisterClassMap<DocumentItemMap>();
+                    var csvConfig = new CsvConfiguration(cultureInfo)
+                    {
+                        Delimiter = ";",
+                    };
 
-                var records = csv.GetRecords<T>().ToList();
-                return records;
+                    var csv = new CsvReader(reader, csvConfig);
+                    csv.Context.RegisterClassMap<DocumentMap>();
+                    csv.Context.RegisterClassMap<DocumentItemMap>();
+
+                    var records = csv.GetRecords<T>().ToList();
+                    return records;
+                }
+            }
+            catch(Exception)
+            {
+                throw;
             }
         }
 
         public IEnumerable<T> ReadCSV<T>(string filePath)
         {
-            using (var reader = new StreamReader(filePath))
+            try
             {
-                CultureInfo cultureInfo = new CultureInfo("pl-PL");
-                cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
-
-                var csvConfig = new CsvConfiguration(cultureInfo)
+                using (var reader = new StreamReader(filePath))
                 {
-                    Delimiter = ";",
-                };
+                    CultureInfo cultureInfo = new CultureInfo("pl-PL");
+                    cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
 
-                var csv = new CsvReader(reader, csvConfig);
-                csv.Context.RegisterClassMap<DocumentMap>();
-                csv.Context.RegisterClassMap<DocumentItemMap>();
+                    var csvConfig = new CsvConfiguration(cultureInfo)
+                    {
+                        Delimiter = ";",
+                    };
 
-                var records = csv.GetRecords<T>().ToList();
-                return records;
+                    var csv = new CsvReader(reader, csvConfig);
+                    csv.Context.RegisterClassMap<DocumentMap>();
+                    csv.Context.RegisterClassMap<DocumentItemMap>();
+
+                    var records = csv.GetRecords<T>().ToList();
+                    return records;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
